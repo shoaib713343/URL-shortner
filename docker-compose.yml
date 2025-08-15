@@ -1,0 +1,17 @@
+services:
+  db:
+   image: postgres
+   restart: always
+   environment:
+    POSTGRES_PASSWORD: Shoaib@4824
+    POSTGRES_USER: postgres
+    POSTGRES_DB: postgres
+   ports:
+   - 5432:5432
+   volumes:
+     - db_data:/var/lib/postgresql/data
+
+  
+volumes:
+  db_data:
+
