@@ -6,11 +6,19 @@ import db from "../db/index.js"
 import {urlsTable} from "../models/url.model.js"
 import {ensureAuthenticated} from "../middlewares/auth.middleware.js"
 import { insertUrl } from '../services/url.service.js';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 
 router.get('/codes', ensureAuthenticated, async function (req, res) {
     const codes = await db.select().from(urlsTable).where(eq(urlsTable.userId, req.user.id));
     return res.json({codes});
+})
+
+router.delete('/:id', ensureAuthenticated, async function (req, res) {
+    const id = req.params.id;
+    await db.delete(urlsTable).where(and(
+        eq(urlsTable.id, id), eq(urlsTable.userId, req.user.id)
+    ));
+    return res.status(200).json({ delete: true });
 })
 
 router.get('/:shortCode', async function(req, res) {
