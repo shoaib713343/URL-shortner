@@ -17,8 +17,9 @@ app.get('/', (req, res) => {
     });
 });
 
-app.use(urlRouter);
+
 app.use('/user', userRouter);
+app.use(urlRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT ${PORT}`);
